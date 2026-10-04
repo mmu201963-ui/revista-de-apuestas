@@ -1,13 +1,15 @@
 # Boletín de apuestas deportivas
 
-React + Vite + Tailwind. App móvil tipo tipsheet en español.
+React + Vite + Tailwind, optimizado para móvil.
 
-## Variables
+## Producción en Vercel
 
-Copia `.env.example` a `.env` y configura:
+La clave de The Odds API **no se expone al navegador**. Configura en Vercel:
 
-- `VITE_ODDS_API_KEY`: The Odds API.
-- `VITE_SPORTSRADAR_KEY`: proveedor de estadísticas de jugador/equipo.
+- `ODDS_API_KEY` = tu clave de The Odds API
+- `SPORTSRADAR_KEY` = opcional, para el adaptador de props
+
+La app consulta `/api/odds`, una función serverless que actúa como proxy. Así el frontend no necesita `VITE_ODDS_API_KEY` y la clave privada no queda embebida en JavaScript público.
 
 ## Desarrollo
 
@@ -16,10 +18,10 @@ npm install
 npm run dev
 ```
 
-## Datos
+## Build
 
-La app consulta The Odds API cada 60 segundos para MLB, NFL y Liga MX cuando hay cobertura. Si falta API, hay rate limit o un mercado no está disponible, conserva la última información y/o muestra las tres selecciones de referencia marcadas como **momio de referencia**.
+```bash
+npm run build
+```
 
-Las probabilidades se normalizan quitando el vig dentro del mercado cuando se obtienen múltiples outcomes. El parlay usa el producto de las probabilidades mostradas.
-
-> Importante: las cuotas son informativas y no garantizan resultados. +18.
+Si la API no responde o falta la clave, la aplicación conserva/muestra los 3 datos de referencia y los etiqueta como `momio de referencia`.
